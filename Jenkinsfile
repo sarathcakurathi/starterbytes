@@ -5,6 +5,8 @@ pipeline {
       // Install the Maven version configured as "M3" and add it to the path.
       maven "maven3"
    }
+   
+   properties([parameters([booleanParam(defaultValue: true, description: '', name: 'SKIP_ARTIFACT_BUILD_DEPLOY')])])
 
    stages {
       stage('Build') {
