@@ -1,14 +1,14 @@
 pipeline {
-   agent any
+	agent any
 
-   tools {
-      // Install the Maven version configured as "M3" and add it to the path.
-      maven "maven3"
-   }
-   
-   parameters {
-        booleanParam(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: true, description: 'Skip build and artifact deployment')
-   }
+	tools {
+	  // Install the Maven version configured as "M3" and add it to the path.
+	  maven "maven3"
+	}
+
+	parameters {
+		booleanParam(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: true, description: 'Skip build and artifact deployment')
+	}
 
 	stages {
 		stage('Build') {
@@ -50,5 +50,4 @@ pipeline {
 		   archiveArtifacts 'target/*.jar'
 		}
 	}
-   }
 }
