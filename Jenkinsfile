@@ -6,7 +6,9 @@ pipeline {
       maven "maven3"
    }
    
-   properties([parameters([booleanParam(defaultValue: true, description: '', name: 'SKIP_ARTIFACT_BUILD_DEPLOY')])])
+   parameters {
+        booleanParam(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: true, description: 'Skip build and artifact deployment')
+   }
 
    stages {
       stage('Build') {
