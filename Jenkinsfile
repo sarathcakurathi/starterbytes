@@ -46,8 +46,9 @@ pipeline {
 	  
 	post {
 		success {
-		   junit '**/target/surefire-reports/TEST-*.xml'
-		   archiveArtifacts 'target/*.jar'
+		   //junit '**/target/surefire-reports/TEST-*.xml'
+		   //archiveArtifacts 'target/*.jar'
+		   echo "Done"
 		}
 	}
 }
