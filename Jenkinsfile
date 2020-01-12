@@ -17,7 +17,7 @@ pipeline {
 					// Get some code from a GitHub repository
 					//git 'https://github.com/sarathcakurathi/starterbytes.git'
 					echo "Parameter:: ${SKIP_ARTIFACT_BUILD_DEPLOY}"
-					if (!SKIP_ARTIFACT_BUILD_DEPLOY) {
+					if (SKIP_ARTIFACT_BUILD_DEPLOY == false) {
 						def server = Artifactory.server 'art'
 						def rtMaven = Artifactory.newMavenBuild()
 						rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
@@ -31,7 +31,7 @@ pipeline {
 		stage('Deploy Artifacts') {
 			steps {
 				script {
-					if (!SKIP_ARTIFACT_BUILD_DEPLOY) {
+					if (SKIP_ARTIFACT_BUILD_DEPLOY == false) {
 						try {
 							rtMaven.deployer.deployArtifacts buildInfo
 							server.publishBuildInfo buildInfo
