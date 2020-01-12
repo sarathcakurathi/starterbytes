@@ -17,6 +17,8 @@ pipeline {
 					// Get some code from a GitHub repository
 					//git 'https://github.com/sarathcakurathi/starterbytes.git'
 					echo "Parameter:: ${SKIP_ARTIFACT_BUILD_DEPLOY}"
+					def var = (!SKIP_ARTIFACT_BUILD_DEPLOY)
+					echo "Var: ${var}"
 					if (SKIP_ARTIFACT_BUILD_DEPLOY == false) {
 						def server = Artifactory.server 'art'
 						def rtMaven = Artifactory.newMavenBuild()
