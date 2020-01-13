@@ -7,7 +7,7 @@ pipeline {
 	}
 
 	parameters {
-		BooleanParameter(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: 'true', description: 'Skip build and artifact deployment')
+		booleanParam(name: 'BUILD_DEPLOY_ARTIFACTS', defaultValue: 'true', description: 'Skip build and artifact deployment')
 	}
 	
 	stages {
@@ -30,10 +30,10 @@ pipeline {
 				script {
 					// Get some code from a GitHub repository
 					//git 'https://github.com/sarathcakurathi/starterbytes.git'
-					echo "Parameter:: ${SKIP_ARTIFACT_BUILD_DEPLOY}"
-					def var = (params.SKIP_ARTIFACT_BUILD_DEPLOY == false)
+					echo "Parameter:: ${BUILD_DEPLOY_ARTIFACTS}"
+					def var = (params.BUILD_DEPLOY_ARTIFACTS == false)
 					echo "Var: ${var}"
-					if (params.SKIP_ARTIFACT_BUILD_DEPLOY == false) {
+					if (params.BUILD_DEPLOY_ARTIFACTS == true) {
 						def server = Artifactory.server 'art'
 						def rtMaven = Artifactory.newMavenBuild()
 						rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
@@ -47,7 +47,7 @@ pipeline {
 		stage('Deploy Artifacts') {
 			steps {
 				script {
-					if (SKIP_ARTIFACT_BUILD_DEPLOY == false) {
+					if (params.BUILD_DEPLOY_ARTIFACTS == true) {
 						try {
 							rtMaven.deployer.deployArtifacts buildInfo
 							server.publishBuildInfo buildInfo
