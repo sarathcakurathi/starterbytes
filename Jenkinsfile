@@ -7,10 +7,29 @@ pipeline {
 	}
 
 	parameters {
-		string(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: 'true', description: 'Skip build and artifact deployment')
+		BooleanParameter(name: 'SKIP_ARTIFACT_BUILD_DEPLOY', defaultValue: 'true', description: 'Skip build and artifact deployment')
 	}
 
+	config = [
+		skipSetParameters : true
+	]
+	
 	stages {
+		stage('Set Parameters') {
+			when {
+                showOnlyWhen {
+                    expression { return !config.skipSetParameters } // evaluated after the stage is executed
+                }
+            }
+			steps {
+				currentBuild.displayName = 'Parameter loading'
+				addBuildDescription('Please restart pipeline')
+				currentBuild.result = 'ABORTED'
+				error('Stopping initial manually triggered build as we only want to get the parameters')
+			}
+			
+		}
+		
 		stage('Build') {
 			 steps {
 				script {
