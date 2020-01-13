@@ -18,7 +18,7 @@ pipeline {
 						currentBuild.displayName = 'Parameter loading'
 						currentBuild.description = 'Please restart pipeline'
 						currentBuild.result = 'ABORTED'
-						error('Stopping initial build as we only want to get the parameters')
+						echo 'Stopping initial build as we only want to get the parameters'
 					}
 				}
 			}
